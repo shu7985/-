@@ -1,0 +1,47 @@
+// android/app/build.gradle
+//
+// 补充文件（题目要求的目录结构里没列，但 minSdk 21 / targetSdk 34 必须在这里改）。
+// 注意：Flutter 3.29+ 的 `flutter create` 生成的是 build.gradle.kts，语法不同，
+// 如果你的是 .kts 文件，把下面 android { } 里的三个值抄过去即可：
+//     minSdk = 21 / targetSdk = 34 / applicationId = "com.example.ledger"
+
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+android {
+    namespace = "com.example.ledger"     // TODO: 改成你的包名（与 kotlin 目录一致）
+    compileSdk = 34
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    defaultConfig {
+        applicationId = "com.example.ledger"   // TODO: 改成你的包名，如 com.yourname.ledger
+        minSdk = 21        // TODO: 新版 Flutter（3.29+）默认 minSdk 已是 24，若构建报错改成 24
+        targetSdk = 34
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
+    }
+
+    buildTypes {
+        release {
+            // TODO: 正式发版请换成自己的签名配置，这里是 Flutter 默认的 debug 签名
+            signingConfig = signingConfigs.debug
+            minifyEnabled = false
+            shrinkResources = false
+        }
+    }
+}
+
+flutter {
+    source = "../.."
+}
