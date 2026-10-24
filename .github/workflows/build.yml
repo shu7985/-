@@ -1,0 +1,47 @@
+ name: Build APK
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.0'
+          channel: 'stable'
+
+      # 1. 运行你上传的 Python 脚本，生成 lib 和 android 里的代码
+      - name: Run scaffold script
+        run: python scaffold_ledger.py
+
+      # 2. 补齐 Flutter 的 android 基础目录（防止脚本没写全）
+      - name: Ensure Flutter directories
+        run: flutter create . --org com.example --project-name ledger
+        
+      # 3. 拉取依赖
+      - name: Get dependencies
+        run: flutter pub get
+        
+      # 4. 开始打包
+      - name: Build APK
+        run: flutter build apk --release
+        
+      # 5. 把打好的包传上来供你下载
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
