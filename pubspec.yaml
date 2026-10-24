@@ -1,0 +1,30 @@
+# pubspec.yaml
+name: ledger
+description: "离线记账本：手动记账 + 微信/支付宝通知自动记账（数据只存本机）"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.10.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # 唯一第三方依赖：本机键值存储
+  shared_preferences: ^2.2.3
+  # 说明：flutter_localizations 是 Flutter SDK 自带包（非第三方），只是为了让
+  # showDatePicker / Material 组件显示中文。若你要严格只保留 shared_preferences，
+  # 删掉这 3 行 + main.dart 里的 localizationsDelegates/locale，日期选择器会变英文。
+  flutter_localizations:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  # ^3.0.0 对 Dart 3.0/3.1 都兼容；如果你的 Flutter 很新也可以升到 ^5.0.0
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  # TODO: 如需 App 图标，把图标放 assets/ 再在这里声明，或用 flutter_launcher_icons
